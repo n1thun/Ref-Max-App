@@ -1,0 +1,96 @@
+from django.shortcuts import render, HttpResponseRedirect, Http404
+from django.conf import settings
+import uuid
+from .forms import JoinForm
+from .models import Join
+
+# Create your views here.
+def get_ref_id():
+	ref_id =  str(uuid.uuid4())[:13].replace('-','').lower()
+	try:
+		id_exists = Join.objects.get(ref_id = ref_id)
+		get_ref_id()
+	except:
+		return ref_id
+
+def share(request, ref_id):
+	try:
+		join_obj = Join.objects.get(ref_id = ref_id)
+		friends_referred = Join.objects.filter(referrer=join_obj) # filter all obj based on referrer
+		count = join_obj.referral.all().count() # filter all obj based on referral
+		ref_url = settings.SHARE_URL + str(join_obj.ref_id)
+		context = {"ref_id":join_obj.ref_id, "count": count, "ref_url": ref_url, "name": join_obj.name}
+		template = "share.html"
+		return render(request, template, context)
+	except:
+		raise Http404
+
+def get_ip(request):
+	try:
+		x_forward = request.META.get("HTTP_X_FOREWAREDED_FOR")
+		if x_forward:
+			ip = x_forward.split(",")[0]
+		else:
+			ip = request.META.get("REMOTE_ADDR")
+	except:
+		ip = ""
+	return ip
+
+def home(request):
+	# print "the ip is "+request.META.get('REMOTE_ADDR')
+	# print request.POST['email'] # prints post data
+	# print request.POST["name"]
+	try:
+		join_id = request.session['join_id_ref'] # using session variable to assign new variable join_id
+		obj = Join.objects.get(ref_id = join_id) # use join_id to find corresponding obj 
+	except:
+		obj = None
+
+
+
+#----------------------------------------------#
+# Using Model forms
+#----------------------------------------------#
+	form = JoinForm(request.POST or None)
+	if form.is_valid():
+		email = form.cleaned_data['email']
+		name = form.cleaned_data['name']
+		new_join_old, created = Join.objects.get_or_create(email = email, name =name)
+		if created:
+			new_join_old.ip_address = get_ip(request)
+			new_join_old.ref_id = get_ref_id()
+			if not obj == None: 			# if obj exist assign object as referee
+				new_join_old.referrer = obj
+			new_join_old.save()
+
+		# print Join.objects.filter(referrer=obj) # filter all obj based on referrer
+		# print obj.referral.all().count() # filter all obj based on referrer
+
+		return HttpResponseRedirect("/%s" %(new_join_old.ref_id))
+
+		# new_join = form.save(commit= False) # dont save at this point, use only for simple model forms
+		# new_join.ip_address = get_ip(request)
+		# new_join.ref_id = get_ref_id()
+		# new_join.save()
+
+	context = {"form": form}
+	template = "home.html"
+	return render(request, template, context)
+
+#----------------------------------------------#
+	# This is using regular forms method
+#----------------------------------------------#
+
+	# form = EmailForm(request.POST or None) #check if post data is coming through
+	# if form.is_valid():
+	# 	email = form.cleaned_data['email']
+	# 	name = form.cleaned_data['name']
+	# 	new_join, created = Join.objects.get_or_create(email=email, name=name) #creates or get data
+	# 	print new_join, created 
+	# 	print new_join.email #prints data passed onto db via model
+	# 	print new_join.timestamp 
+
+
+
+
+

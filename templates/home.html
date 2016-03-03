@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block styles %}
+<style>
+body {
+  border-top: 5px solid #47BFA6;
+  /*min-height: 1200px;
+  min-width: 1200px;*/
+  background: url('{% static "img/cube.jpg" %}') repeat center center fixed; /* fixes bg to the center and enables resize*/
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: conver;
+  background-size: cover;
+}
+.jumbotron h1 {
+  font-weight: 100;
+}
+.jumbotron p {
+  font-weight: 300 !important;
+  font-size: 28px !important;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron" style='background-color:white'>
+  <div class="container">
+    <div class="col-sm-6">
+      <h1>Launch with code</h1>
+      <p>Use it as a starting point to create something more unique.</p>
+      <p><a class="btn btn-default btn-lg btn-block" href="#signup" role="button">Be the first &raquo;</a></p>
+    </div>
+    <div class="col-sm-6">
+      <img src="{% static 'img/iphone.png' %}" class = 'img-responsive' />
+    </div>
+  </div>
+</div>
+
+
+<div class="row" style="margin-top:0px;">
+  <div class="container" style='text-align:center; padding:5px;'>
+    <i class="fa fa-unlock fa-5x" style="color:#449d44"></i>
+    <h1>Unlock now</h1>
+    <form class='form-horizontal' method="POST" action=""> {% csrf_token %}
+      <!--   <div class='form-group form-group-lg'>
+      {% if form.email.errors %}
+      {% for err in form.email.errors %}
+      <div class="alert alert-danger" role="alert">{{ err }}</div>
+      {% endfor %}
+      {% endif %}
+      <div class="input-group">
+      <input class='form-control' type="email" name="email" placeholder="Your email..." />
+      <span class='input-group-btn'>
+      <input type='submit' value='Join' class='btn btn-primary btn-lg' />
+    </span>
+  </div>
+</div> -->
+{{ form.as_p }}
+<input type='submit' value='Join' class='btn btn-primary btn-lg' />
+</form>
+<p class='lead'>Sign up here. <br/> Get First News on Content</p>
+</div>
+</div>
+
+<div class="row" style='text-align:center; background-color:white; margin:0px 0px; min-height:200px;'>
+  <div class="col-sm-12" style='text-align:center'>
+
+    <h1>Welcome home</h1>
+    <div class='row featured-row'>
+      <div class='col-sm-12'>
+
+        <div class='col-sm-3'>
+          <i class="fa fa-upload fa-3x"></i>
+          <h2>Performance</h2>
+          <p class='lead'>
+            Some feature text goes here.
+          </p>
+        </div>
+        <div class='col-sm-3'>
+          <i class="fa fa-upload fa-3x"></i>
+          <h2>Quality</h2>
+          <p class='lead'>
+            Some feature text goes here.
+          </p>
+        </div>
+        <div class='col-sm-3'>
+          <i class="fa fa-upload fa-3x"></i>
+          <h2>Analytics</h2>
+          <p class='lead'>
+            Some feature text goes here.
+          </p>
+        </div>
+        <div class='col-sm-3'>
+          <i class="fa fa-upload fa-3x"></i>
+          <h2>RESTful</h2>
+          <p class='lead'>
+            Some feature text goes here.
+          </p>
+        </div>
+
+
+      </div>
+
+    </div>
+
+    <div class='row featured-row'>
+      <div class='col-sm-12'>
+        <div class='col-sm-3'>
+          <i class="fa fa-upload fa-3x"></i>
+          <h2>Logistics</h2>
+          <p class='lead'>
+            Bacon ipsum do- lor sit amet t-bone flank sirloin, shankle salami swine drumstick
+          </div>
+          <div class='col-sm-3'>
+            <i class="fa fa-upload fa-3x"></i>
+            <h2>Support</h2>
+            <p class='lead'>
+              Bacon ipsum do- lor sit amet t-bone flank sirloin, shankle salami swine drumstick
+            </div>
+            <div class='col-sm-3'>
+              <i class="fa fa-upload fa-3x"></i>
+              <h2>Django</h2>
+              <p class='lead'>
+                Bacon ipsum do- lor sit amet t-bone flank sirloin, shankle salami swine drumstick
+              </div>
+              <div class='col-sm-3'>
+                <i class="fa fa-upload fa-3x"></i>
+                <h2>Python</h2>
+                <p class='lead'>
+                  Bacon ipsum do- lor sit amet t-bone flank sirloin, shankle salami swine drumstick
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
+      {% endblock %}
