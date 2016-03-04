@@ -6,6 +6,7 @@ __pycache__/
 # C extensions
 *.so
 lwc/settings/local.py
+db.sqlite3
 
 # Distribution / packaging
 .Python
