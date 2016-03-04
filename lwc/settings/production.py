@@ -15,9 +15,11 @@ import dj_database_url
 
 from django.conf import settings
 
+SHARE_URL = "https://stormy-hollows-31496.herokuapp.com/?ref="
+
 DATABASES = settings.DATABASES #linking to base settings
 DEBUG = False
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 # Application definition
 MIDDLEWARE_CLASSES = (
